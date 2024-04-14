@@ -1,0 +1,20 @@
+<resources>
+
+    <!-- app -->
+    <string name="app_name">StarWarsCatalog</string>
+
+    <!-- character -->
+    <string name="character">Character</string>
+    <string name="gender">gender: %s</string>
+    <string name="starships_count">starships count: %s</string>
+
+    <!-- starship -->
+    <string name="starship">Starship</string>
+    <string name="model">model: %s</string>
+    <string name="manufacturer">manufacturer: %s</string>
+    <string name="passengers">passengers: %s</string>
+
+    <!-- general -->
+    <string name="name">name: %s</string>
+
+</resources>
