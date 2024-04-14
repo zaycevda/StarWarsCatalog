@@ -1,11 +1,15 @@
 package com.example.starwarscatalog.app.ui.screen.favorite
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.starwarscatalog.app.model.CharacterModel
+import com.example.starwarscatalog.app.model.PlanetModel
 import com.example.starwarscatalog.app.model.StarshipModel
 import com.example.starwarscatalog.app.util.characterEntity
 import com.example.starwarscatalog.app.util.characterModel
+import com.example.starwarscatalog.app.util.planetEntity
+import com.example.starwarscatalog.app.util.planetModel
 import com.example.starwarscatalog.app.util.starshipEntity
 import com.example.starwarscatalog.app.util.starshipModel
 import com.example.starwarscatalog.domain.repository.FavoriteRepository
@@ -19,6 +23,10 @@ open class FavoriteViewModel(private val favoriteRepository: FavoriteRepository)
         value = emptyList()
     )
     val favoriteCharacterModels = _favoriteCharacterModels.asStateFlow()
+    private val _favoritePlanetModels = MutableStateFlow<List<PlanetModel>>(
+        value = emptyList()
+    )
+    val favoritePlanetModels = _favoritePlanetModels.asStateFlow()
     private val _favoriteStarshipModels = MutableStateFlow<List<StarshipModel>>(
         value = emptyList()
     )
@@ -26,6 +34,7 @@ open class FavoriteViewModel(private val favoriteRepository: FavoriteRepository)
 
     init {
         getFavoritesCharactersModels()
+        getFavoritesPlanetsModels()
         getFavoritesStarshipsModels()
     }
 
@@ -33,6 +42,13 @@ open class FavoriteViewModel(private val favoriteRepository: FavoriteRepository)
         viewModelScope.launch(context = Dispatchers.IO) {
             val characterEntity = characterModel.characterEntity
             favoriteRepository.addCharacterToFavorite(characterEntity = characterEntity)
+        }
+    }
+
+    private fun addPlanetToFavorite(planetModel: PlanetModel) {
+        viewModelScope.launch(context = Dispatchers.IO) {
+            val planetEntity = planetModel.planetEntity
+            favoriteRepository.addPlanetToFavorite(planetEntity = planetEntity)
         }
     }
 
@@ -50,6 +66,13 @@ open class FavoriteViewModel(private val favoriteRepository: FavoriteRepository)
         }
     }
 
+    private fun deletePlanetFromFavorite(planetModel: PlanetModel) {
+        viewModelScope.launch(context = Dispatchers.IO) {
+            val planetEntity = planetModel.planetEntity
+            favoriteRepository.deletePlanetFromFavorite(planetEntity = planetEntity)
+        }
+    }
+
     private fun deleteStarshipFromFavorite(starshipModel: StarshipModel) {
         viewModelScope.launch(context = Dispatchers.IO) {
             val starshipEntity = starshipModel.starshipEntity
@@ -64,6 +87,17 @@ open class FavoriteViewModel(private val favoriteRepository: FavoriteRepository)
                     characterEntity.characterModel
                 }
                 _favoriteCharacterModels.value = characterModels
+            }
+        }
+    }
+
+    private fun getFavoritesPlanetsModels() {
+        viewModelScope.launch(context = Dispatchers.IO) {
+            favoriteRepository.getPlanetEntitiesFlowFromFavorite().collect { planetEntities ->
+                val planetModels = planetEntities.map { planetEntity ->
+                    planetEntity.planetModel
+                }
+                _favoritePlanetModels.value = planetModels
             }
         }
     }
@@ -87,6 +121,18 @@ open class FavoriteViewModel(private val favoriteRepository: FavoriteRepository)
             deleteCharacterFromFavorite(characterModel = characterModel)
         } else {
             addCharacterToFavorite(characterModel = characterModel)
+        }
+    }
+
+    fun togglePlanetFavoriteStatus(
+        planetModel: PlanetModel,
+        isFavorite: Boolean
+    ) {
+        Log.d("bebra", "isFavorite = $isFavorite")
+        if (isFavorite) {
+            deletePlanetFromFavorite(planetModel = planetModel)
+        } else {
+            addPlanetToFavorite(planetModel = planetModel)
         }
     }
 

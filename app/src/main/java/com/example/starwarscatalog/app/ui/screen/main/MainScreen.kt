@@ -19,6 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.starwarscatalog.app.ui.kit.CharacterItem
+import com.example.starwarscatalog.app.ui.kit.PlanetItem
 import com.example.starwarscatalog.app.ui.kit.StarshipItem
 import org.koin.androidx.compose.koinViewModel
 
@@ -29,12 +30,15 @@ fun MainScreen(viewModel: MainViewModel = koinViewModel()) {
     }
     val characterModels by viewModel.characterModels.collectAsStateWithLifecycle()
     val favoriteCharacterModels by viewModel.favoriteCharacterModels.collectAsStateWithLifecycle()
+    val planetModels by viewModel.planetModels.collectAsStateWithLifecycle()
+    val favoritePlanetModels by viewModel.favoritePlanetModels.collectAsStateWithLifecycle()
     val starshipModels by viewModel.starshipModels.collectAsStateWithLifecycle()
     val favoriteStarshipModels by viewModel.favoriteStarshipModels.collectAsStateWithLifecycle()
 
     LaunchedEffect(key1 = query) {
         if (query.length >= 2) {
             viewModel.getCharactersModels(name = query)
+            viewModel.getPlanetsModels(name = query)
             viewModel.getStarshipsModels(name = query)
         }
     }
@@ -93,6 +97,26 @@ fun MainScreen(viewModel: MainViewModel = koinViewModel()) {
                     onClick = {
                         viewModel.toggleStarshipFavoriteStatus(
                             starshipModel = starshipModel,
+                            isFavorite = isFavorite
+                        )
+                    }
+                )
+            }
+            items(count = planetModels.count()) { planetIndex ->
+                val planetModel = planetModels[planetIndex]
+                val isFavorite = favoritePlanetModels.contains(
+                    element = planetModel
+                )
+
+                PlanetItem(
+                    modifier = Modifier.padding(
+                        horizontal = 16.dp
+                    ),
+                    planetModel = planetModel,
+                    isFavorite = isFavorite,
+                    onClick = {
+                        viewModel.togglePlanetFavoriteStatus(
+                            planetModel = planetModel,
                             isFavorite = isFavorite
                         )
                     }

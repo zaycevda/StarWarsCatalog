@@ -8,6 +8,11 @@
     <string name="gender">gender: %s</string>
     <string name="starships_count">starships count: %s</string>
 
+    <!-- planet -->
+    <string name="planet">Planet</string>
+    <string name="diameter">diameter: %s</string>
+    <string name="population">population: %s</string>
+
     <!-- starship -->
     <string name="starship">Starship</string>
     <string name="model">model: %s</string>

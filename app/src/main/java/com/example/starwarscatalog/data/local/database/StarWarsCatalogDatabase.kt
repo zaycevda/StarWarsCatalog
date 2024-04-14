@@ -4,11 +4,13 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.example.starwarscatalog.data.local.dao.FavoriteDao
 import com.example.starwarscatalog.data.local.model.CharacterFavoriteData
+import com.example.starwarscatalog.data.local.model.PlanetFavoriteData
 import com.example.starwarscatalog.data.local.model.StarshipFavoriteData
 
 @Database(
     entities = [
         CharacterFavoriteData::class,
+        PlanetFavoriteData::class,
         StarshipFavoriteData::class
     ],
     version = 1,

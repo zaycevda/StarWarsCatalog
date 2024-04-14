@@ -1,8 +1,10 @@
 package com.example.starwarscatalog.app.util
 
 import com.example.starwarscatalog.app.model.CharacterModel
+import com.example.starwarscatalog.app.model.PlanetModel
 import com.example.starwarscatalog.app.model.StarshipModel
 import com.example.starwarscatalog.domain.model.CharacterEntity
+import com.example.starwarscatalog.domain.model.PlanetEntity
 import com.example.starwarscatalog.domain.model.StarshipEntity
 
 val CharacterEntity.characterModel
@@ -17,6 +19,20 @@ val CharacterModel.characterEntity
         name = name,
         gender = gender,
         starshipsCount = starshipsCount
+    )
+
+val PlanetEntity.planetModel
+    get() = PlanetModel(
+        name = name,
+        diameter = diameter,
+        population = population
+    )
+
+val PlanetModel.planetEntity
+    get() = PlanetEntity(
+        name = name,
+        diameter = diameter,
+        population = population
     )
 
 val StarshipEntity.starshipModel

@@ -7,9 +7,7 @@ import org.koin.dsl.module
 
 val appModule = module {
     viewModel { _ ->
-        FavoriteViewModel(
-            favoriteRepository = get()
-        )
+        FavoriteViewModel(favoriteRepository = get())
     }
     viewModel { _ ->
         MainViewModel(

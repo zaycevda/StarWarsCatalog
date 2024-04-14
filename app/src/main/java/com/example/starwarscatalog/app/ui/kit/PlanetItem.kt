@@ -25,12 +25,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.starwarscatalog.R
-import com.example.starwarscatalog.app.model.StarshipModel
+import com.example.starwarscatalog.app.model.PlanetModel
 
 @Composable
-fun StarshipItem(
+fun PlanetItem(
     modifier: Modifier = Modifier,
-    starshipModel: StarshipModel,
+    planetModel: PlanetModel,
     isFavorite: Boolean,
     onClick: () -> Unit
 ) {
@@ -53,7 +53,7 @@ fun StarshipItem(
         modifier = modifier
             .fillMaxWidth()
             .background(
-                color = Color.Gray,
+                color = Color.LightGray,
                 shape = characterItemShape
             )
             .border(
@@ -75,7 +75,7 @@ fun StarshipItem(
         )
         Text(
             text = stringResource(
-                id = R.string.starship
+                id = R.string.planet
             ),
             modifier = textPadding,
             style = MaterialTheme.typography.titleMedium.copy(
@@ -85,7 +85,7 @@ fun StarshipItem(
         Text(
             text = stringResource(
                 id = R.string.name,
-                starshipModel.name
+                planetModel.name
             ),
             modifier = textPadding,
             style = MaterialTheme.typography.bodyLarge.copy(
@@ -94,8 +94,8 @@ fun StarshipItem(
         )
         Text(
             text = stringResource(
-                id = R.string.model,
-                starshipModel.model
+                id = R.string.diameter,
+                planetModel.diameter
             ),
             modifier = textPadding,
             style = MaterialTheme.typography.bodyLarge.copy(
@@ -104,18 +104,8 @@ fun StarshipItem(
         )
         Text(
             text = stringResource(
-                id = R.string.manufacturer,
-                starshipModel.manufacturer
-            ),
-            modifier = textPadding,
-            style = MaterialTheme.typography.bodyLarge.copy(
-                color = Color.Black
-            )
-        )
-        Text(
-            text = stringResource(
-                id = R.string.passengers,
-                starshipModel.passengers
+                id = R.string.population,
+                planetModel.population
             ),
             modifier = textPadding,
             style = MaterialTheme.typography.bodyLarge.copy(
@@ -127,19 +117,18 @@ fun StarshipItem(
 
 @Preview(showBackground = true)
 @Composable
-private fun StarshipItemPreview() {
-    val starshipModel = StarshipModel(
-        name = "Death Star",
-        model = "DS-1 Orbital Battle Station",
-        manufacturer = "Imperial Department of Military Research, Sienar Fleet Systems",
-        passengers = "843342"
+private fun PlanetItemPreview() {
+    val planetModel = PlanetModel(
+        name = "Tatooine",
+        diameter = "10465",
+        population = "120000"
     )
     var isFavorite by remember {
         mutableStateOf(value = false)
     }
 
-    StarshipItem(
-        starshipModel = starshipModel,
+    PlanetItem(
+        planetModel = planetModel,
         isFavorite = isFavorite,
         onClick = {
             isFavorite = !isFavorite

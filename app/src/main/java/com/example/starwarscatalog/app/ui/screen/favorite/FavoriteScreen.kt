@@ -12,12 +12,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.starwarscatalog.app.ui.kit.CharacterItem
+import com.example.starwarscatalog.app.ui.kit.PlanetItem
 import com.example.starwarscatalog.app.ui.kit.StarshipItem
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun FavoriteScreen(viewModel: FavoriteViewModel = koinViewModel()) {
     val favoriteCharacterModels by viewModel.favoriteCharacterModels.collectAsStateWithLifecycle()
+    val favoritePlanetModels by viewModel.favoritePlanetModels.collectAsStateWithLifecycle()
     val favoriteStarshipModels by viewModel.favoriteStarshipModels.collectAsStateWithLifecycle()
 
     LazyColumn(
@@ -29,12 +31,7 @@ fun FavoriteScreen(viewModel: FavoriteViewModel = koinViewModel()) {
             space = 8.dp
         )
     ) {
-        items(
-            count = favoriteCharacterModels.count(),
-            key = { characterIndex ->
-                favoriteCharacterModels[characterIndex].name
-            }
-        ) { characterIndex ->
+        items(count = favoriteCharacterModels.count()) { characterIndex ->
             val characterModel = favoriteCharacterModels[characterIndex]
 
             CharacterItem(
@@ -51,12 +48,7 @@ fun FavoriteScreen(viewModel: FavoriteViewModel = koinViewModel()) {
                 }
             )
         }
-        items(
-            count = favoriteStarshipModels.count(),
-            key = { starshipIndex ->
-                favoriteStarshipModels[starshipIndex].name
-            }
-        ) { starshipIndex ->
+        items(count = favoriteStarshipModels.count()) { starshipIndex ->
             val starshipModel = favoriteStarshipModels[starshipIndex]
 
             StarshipItem(
@@ -68,6 +60,23 @@ fun FavoriteScreen(viewModel: FavoriteViewModel = koinViewModel()) {
                 onClick = {
                     viewModel.toggleStarshipFavoriteStatus(
                         starshipModel = starshipModel,
+                        isFavorite = true
+                    )
+                }
+            )
+        }
+        items(count = favoritePlanetModels.count()) { planetIndex ->
+            val planetModel = favoritePlanetModels[planetIndex]
+
+            PlanetItem(
+                modifier = Modifier.padding(
+                    horizontal = 16.dp
+                ),
+                planetModel = planetModel,
+                isFavorite = true,
+                onClick = {
+                    viewModel.togglePlanetFavoriteStatus(
+                        planetModel = planetModel,
                         isFavorite = true
                     )
                 }

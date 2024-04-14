@@ -2,9 +2,11 @@ package com.example.starwarscatalog.app.ui.screen.main
 
 import androidx.lifecycle.viewModelScope
 import com.example.starwarscatalog.app.model.CharacterModel
+import com.example.starwarscatalog.app.model.PlanetModel
 import com.example.starwarscatalog.app.model.StarshipModel
 import com.example.starwarscatalog.app.ui.screen.favorite.FavoriteViewModel
 import com.example.starwarscatalog.app.util.characterModel
+import com.example.starwarscatalog.app.util.planetModel
 import com.example.starwarscatalog.app.util.starshipModel
 import com.example.starwarscatalog.domain.repository.FavoriteRepository
 import com.example.starwarscatalog.domain.repository.StarWarsRepository
@@ -21,6 +23,10 @@ class MainViewModel(
         value = emptyList()
     )
     val characterModels = _characterModels.asStateFlow()
+    private val _planetModels = MutableStateFlow<List<PlanetModel>>(
+        value = emptyList()
+    )
+    val planetModels = _planetModels.asStateFlow()
     private val _starshipModels = MutableStateFlow<List<StarshipModel>>(
         value = emptyList()
     )
@@ -35,6 +41,18 @@ class MainViewModel(
                 characterEntity.characterModel
             }
             _characterModels.value = characterModels
+        }
+    }
+
+    fun getPlanetsModels(name: String) {
+        viewModelScope.launch(context = Dispatchers.IO) {
+            val planetEntities = starWarsRepository.getPlanetEntitiesFromApiByName(
+                name = name
+            )
+            val planetModels = planetEntities.map { planetEntity ->
+                planetEntity.planetModel
+            }
+            _planetModels.value = planetModels
         }
     }
 

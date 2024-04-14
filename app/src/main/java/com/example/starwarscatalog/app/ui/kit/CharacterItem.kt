@@ -53,7 +53,7 @@ fun CharacterItem(
         modifier = modifier
             .fillMaxWidth()
             .background(
-                color = Color.Gray,
+                color = Color.DarkGray,
                 shape = characterItemShape
             )
             .border(
